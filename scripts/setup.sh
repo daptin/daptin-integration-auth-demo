@@ -141,5 +141,5 @@ write_state
 log "setup complete"
 log "state written to $STATE_FILE"
 log "run: make publish"
-log "restart Daptin after setup (Docker: make restart; source mode: Ctrl-C and make run-daptin-source again)"
+log "restart Daptin after setup (Docker: make restart; release mode: Ctrl-C and make run-daptin-release again)"
 log "open: $DAPTIN_BASE_URL/integration-auth-demo/"

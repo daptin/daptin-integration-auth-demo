@@ -15,7 +15,7 @@ Runtime serving is Daptin only. Node is used only to compile the static browser 
 
 ## Prerequisites
 
-- Docker
+- Docker, or GitHub CLI for release-binary mode
 - Node 20+
 - `curl`, `jq`, and `rsync`
 - A GitHub OAuth app with callback URL:
@@ -41,19 +41,23 @@ GITHUB_OAUTH_CLIENT_SECRET=...
 
 Keep `DAPTIN_OAUTH_REDIRECT_URI` as `http://localhost:7336/oauth/response`. Daptin appends `?authenticator=github-e2e` when it builds the provider authorize URL, so the GitHub OAuth app callback URL must include that query string.
 
-For testing the current local Daptin branch, run Daptin from the sibling checkout in one terminal:
-
-```bash
-make run-daptin-source
-```
-
-This starts Daptin on port `7336` and stores its DB/files under this demo's `daptin-data/`.
-
-If you already have a Docker image with the integration-auth branch, set `DAPTIN_IMAGE` in `.env.local` and use:
+Start Daptin from Docker in one terminal:
 
 ```bash
 make up
 ```
+
+The default image is `daptin/daptin:v0.12.2`, because Docker does not currently publish a `latest` tag.
+
+Or run the GitHub release binary directly:
+
+```bash
+make run-daptin-release
+```
+
+This downloads the `daptin/daptin` release asset for your OS/architecture using `gh release download`, then stores Daptin DB/files under this demo's `daptin-data/`.
+
+On Apple Silicon, release-binary mode uses Daptin's published `darwin-amd64` asset. Use Docker if Rosetta is not available.
 
 Bootstrap users, OAuth connector, integrations, actions, and the subsite row:
 
@@ -76,7 +80,7 @@ Open:
 http://localhost:7336/integration-auth-demo/
 ```
 
-Daptin registers subsite routes on startup, so restart Daptin after `make setup` creates the site row. In Docker mode use `make restart`; in source mode stop `make run-daptin-source` with `Ctrl-C` and run it again. File updates after that can be republished with `make publish`; restart if the subsite does not refresh within 10-15 seconds.
+Daptin registers subsite routes on startup, so restart Daptin after `make setup` creates the site row. In Docker mode use `make restart`; in release-binary mode stop `make run-daptin-release` with `Ctrl-C` and run it again. File updates after that can be republished with `make publish`; restart if the subsite does not refresh within 10-15 seconds.
 
 ## Manual E2E Flow
 

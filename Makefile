@@ -1,6 +1,6 @@
 DAPTIN_BASE_URL ?= http://localhost:7336
 
-.PHONY: install build run-daptin-source up down logs setup publish restart verify clean
+.PHONY: install build run-daptin-release up down logs setup publish restart verify clean
 
 install:
 	npm install
@@ -8,13 +8,8 @@ install:
 build:
 	npm run build
 
-run-daptin-source:
-	mkdir -p "$(CURDIR)/daptin-data/storage" "$(CURDIR)/daptin-data/cache"
-	cd $${DAPTIN_SOURCE_DIR:-../daptin} && \
-		DAPTIN_DB_CONNECTION_STRING="$(CURDIR)/daptin-data/daptin.db" \
-		DAPTIN_LOCAL_STORAGE_PATH="$(CURDIR)/daptin-data/storage" \
-		DAPTIN_CACHE_FOLDER="$(CURDIR)/daptin-data/cache" \
-		go run . -runtime release -port :7336
+run-daptin-release:
+	./scripts/run-release.sh
 
 up:
 	docker compose up -d

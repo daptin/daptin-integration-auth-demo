@@ -1,6 +1,6 @@
 services:
   daptin:
-    image: ${DAPTIN_IMAGE:-daptin/daptin:v0.11.8}
+    image: ${DAPTIN_IMAGE:-daptin/daptin:v0.12.2}
     ports:
       - "${DAPTIN_HOST_PORT:-7336}:8080"
     environment:
