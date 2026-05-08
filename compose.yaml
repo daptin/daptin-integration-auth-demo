@@ -1,0 +1,12 @@
+services:
+  daptin:
+    image: ${DAPTIN_IMAGE:-daptin/daptin:v0.11.8}
+    ports:
+      - "${DAPTIN_HOST_PORT:-7336}:8080"
+    environment:
+      DAPTIN_PORT: ":8080"
+      DAPTIN_DB_CONNECTION_STRING: /data/daptin.db
+      DAPTIN_LOCAL_STORAGE_PATH: /data/storage
+      DAPTIN_CACHE_FOLDER: /data/cache
+    volumes:
+      - ./daptin-data:/data

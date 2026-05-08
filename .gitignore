@@ -1,0 +1,7 @@
+.env.local
+.demo-state.env
+daptin-data/
+dist/
+node_modules/
+npm-debug.log*
+

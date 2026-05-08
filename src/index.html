@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Daptin Integration Auth E2E</title>
+    <link rel="stylesheet" href="./assets/style.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>Daptin Integration Auth E2E</h1>
+        <p>Manual OAuth token and custom credential execution checks against real providers.</p>
+      </div>
+      <button id="refresh-all" type="button">Refresh</button>
+    </header>
+
+    <main>
+      <section class="panel">
+        <h2>Sessions</h2>
+        <div class="grid three" id="sessions"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Registered Setup</h2>
+        <div class="grid three">
+          <label>Base URL
+            <input id="base-url" autocomplete="off">
+          </label>
+          <label>OAuth connector
+            <select id="oauth-connect"></select>
+          </label>
+          <label>Execution user
+            <select id="execution-user"></select>
+          </label>
+        </div>
+        <div class="resource-grid">
+          <div>
+            <h3>Integrations</h3>
+            <pre id="integrations"></pre>
+          </div>
+          <div>
+            <h3>Actions</h3>
+            <pre id="actions"></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>OAuth Tokens</h2>
+        <div class="toolbar">
+          <button id="start-oauth" type="button">Start GitHub OAuth</button>
+          <button id="refresh-oauth-tokens" type="button">Refresh Tokens</button>
+        </div>
+        <div class="grid two">
+          <label>OAuth token id
+            <select id="oauth-token"></select>
+          </label>
+          <label>Manual token id
+            <input id="manual-oauth-token" placeholder="Paste oauth_token reference id">
+          </label>
+        </div>
+        <pre id="oauth-tokens"></pre>
+      </section>
+
+      <section class="panel">
+        <h2>Credentials</h2>
+        <div class="grid three">
+          <label>Name
+            <input id="credential-name" placeholder="alice-github-pat">
+          </label>
+          <label>Field
+            <select id="credential-field">
+              <option value="token">GitHub PAT token</option>
+              <option value="secret_key">Stripe secret_key</option>
+            </select>
+          </label>
+          <label>Secret
+            <input id="credential-secret" type="password" autocomplete="off">
+          </label>
+        </div>
+        <div class="toolbar">
+          <button id="create-credential" type="button">Create Credential</button>
+          <button id="refresh-credentials" type="button">Refresh Credentials</button>
+        </div>
+        <label>Credential id
+          <select id="credential-id"></select>
+        </label>
+        <pre id="credentials"></pre>
+      </section>
+
+      <section class="panel">
+        <h2>Execute</h2>
+        <div class="toolbar">
+          <label class="check"><input id="inject-auth" type="checkbox"> send malicious Authorization action input</label>
+        </div>
+        <div class="grid three">
+          <button id="run-github-oauth" type="button">GitHub via OAuth Token</button>
+          <button id="run-github-pat" type="button">GitHub via Credential</button>
+          <button id="run-stripe" type="button">Stripe via Credential</button>
+        </div>
+        <pre id="result"></pre>
+      </section>
+
+      <section class="panel">
+        <h2>Manual Matrix</h2>
+        <table>
+          <thead>
+            <tr><th>Case</th><th>Expected result</th><th>Status</th></tr>
+          </thead>
+          <tbody id="matrix"></tbody>
+        </table>
+      </section>
+    </main>
+
+    <script type="module" src="./assets/main.js"></script>
+  </body>
+</html>
+

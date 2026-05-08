@@ -1,0 +1,59 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "GitHub OAuth User Demo",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.github.com"
+    }
+  ],
+  "security": [
+    {
+      "githubOAuth": []
+    }
+  ],
+  "paths": {
+    "/user": {
+      "get": {
+        "operationId": "githubOauthUser",
+        "summary": "Read the authenticated GitHub user using a selected Daptin oauth_token",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Negative-test input. Daptin must ignore this and use the selected oauth_token_id."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authenticated GitHub profile"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "githubOAuth": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://github.com/login/oauth/authorize",
+            "tokenUrl": "https://github.com/login/oauth/access_token",
+            "scopes": {
+              "read:user": "Read the authenticated user's profile",
+              "user:email": "Read the authenticated user's email addresses"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
