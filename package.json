@@ -4,11 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/build.mjs"
+    "compile": "node scripts/compile-site.mjs"
   },
   "devDependencies": {
     "esbuild": "^0.25.0",
     "typescript": "^5.8.0"
   }
 }
-

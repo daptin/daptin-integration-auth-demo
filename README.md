@@ -2,7 +2,7 @@
 
 This is a standalone manual E2E project for Daptin integrations that execute with a user-selected OAuth token or a user-selected custom credential.
 
-Runtime serving is Daptin only. Node is used only to compile the static browser app into `dist/`, and the site is published into Daptin local storage as a subsite.
+Runtime serving is Daptin only. This demo does not ask users to build Daptin. Use either the published Docker image or a binary downloaded from the latest GitHub release. Node is used only to compile the static browser app into `dist/`, and the site is published into Daptin local storage as a subsite.
 
 ## What It Tests
 
@@ -49,7 +49,7 @@ make up
 
 The default image is `daptin/daptin:v0.12.2`, because Docker does not currently publish a `latest` tag.
 
-Or run the GitHub release binary directly:
+Or run the GitHub release binary directly. The default `DAPTIN_RELEASE_TAG=latest` downloads the latest release asset:
 
 ```bash
 make run-daptin-release
@@ -67,7 +67,7 @@ make setup
 
 The scripts call instance actions as `/action/{type}/{action}` with `{type}_id` in `attributes`, which is the route shape Daptin registers for actions.
 
-Build and publish the static site into Daptin local storage:
+Compile and publish the static site into Daptin local storage:
 
 ```bash
 make install

@@ -1,12 +1,12 @@
 DAPTIN_BASE_URL ?= http://localhost:7336
 
-.PHONY: install build run-daptin-release up down logs setup publish restart verify clean
+.PHONY: install compile-site run-daptin-release up down logs setup publish restart verify clean
 
 install:
 	npm install
 
-build:
-	npm run build
+compile-site:
+	npm run compile
 
 run-daptin-release:
 	./scripts/run-release.sh
@@ -23,7 +23,7 @@ logs:
 setup:
 	./scripts/setup.sh
 
-publish: build
+publish: compile-site
 	./scripts/publish-site.sh
 
 restart:
