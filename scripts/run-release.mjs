@@ -32,6 +32,7 @@ try {
 }
 
 if (platform !== "win32") await fs.chmod(binary, 0o755);
+if (platform === "win32") await validateWindowsExecutable(binary);
 
 console.log(`[demo] starting ${binary} on port ${config.hostPort}`);
 const child = spawn(binary, ["-runtime", "release", "-port", `:${config.hostPort}`], {
@@ -72,3 +73,32 @@ async function downloadReleaseAsset(tag, assetName, target) {
   await fs.writeFile(target, bytes);
 }
 
+async function validateWindowsExecutable(filePath) {
+  const handle = await fs.open(filePath, "r");
+  try {
+    const dos = Buffer.alloc(64);
+    await handle.read(dos, 0, dos.length, 0);
+    if (dos.toString("ascii", 0, 2) !== "MZ") throw new Error("missing MZ header");
+
+    const peOffset = dos.readUInt32LE(0x3c);
+    const header = Buffer.alloc(120);
+    await handle.read(header, 0, header.length, peOffset);
+    if (header.readUInt32LE(0) !== 0x00004550) throw new Error("missing PE header");
+
+    const machine = header.readUInt16LE(4);
+    const subsystem = header.readUInt16LE(24 + 0x5c);
+    if (machine !== 0x8664) {
+      throw new Error(`unexpected PE machine 0x${machine.toString(16)}; expected x64`);
+    }
+    if (subsystem !== 2 && subsystem !== 3) {
+      throw new Error(`invalid PE subsystem ${subsystem}; expected Windows GUI or console`);
+    }
+  } catch (error) {
+    throw new Error(
+      `Downloaded Daptin Windows release binary is not executable on this OS (${error.message}). ` +
+      "Use Docker, or set DAPTIN_RELEASE_TAG to a release with a valid daptin-windows-amd64.exe asset."
+    );
+  } finally {
+    await handle.close();
+  }
+}
