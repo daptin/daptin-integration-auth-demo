@@ -15,9 +15,8 @@ Runtime serving is Daptin only. This demo does not ask users to build Daptin. Us
 
 ## Prerequisites
 
-- Docker, or GitHub CLI for release-binary mode
+- Docker, or internet access to download the Daptin GitHub release binary
 - Node 20+
-- `curl`, `jq`, and `rsync`
 - A GitHub OAuth app with callback URL:
 
 ```text
@@ -44,7 +43,7 @@ Keep `DAPTIN_OAUTH_REDIRECT_URI` as `http://localhost:7336/oauth/response`. Dapt
 Start Daptin from Docker in one terminal:
 
 ```bash
-make up
+npm run docker:up
 ```
 
 The default image is `daptin/daptin:v0.12.2`, because Docker does not currently publish a `latest` tag.
@@ -52,17 +51,17 @@ The default image is `daptin/daptin:v0.12.2`, because Docker does not currently 
 Or run the GitHub release binary directly. The default `DAPTIN_RELEASE_TAG=latest` downloads the latest release asset:
 
 ```bash
-make run-daptin-release
+npm run daptin:release
 ```
 
-This downloads the `daptin/daptin` release asset for your OS/architecture using `gh release download`, then stores Daptin DB/files under this demo's `daptin-data/`.
+This downloads the `daptin/daptin` release asset for your OS/architecture, then stores Daptin DB/files under this demo's `daptin-data/`.
 
 On Apple Silicon, release-binary mode uses Daptin's published `darwin-amd64` asset. Use Docker if Rosetta is not available.
 
 Bootstrap users, OAuth connector, integrations, actions, and the subsite row:
 
 ```bash
-make setup
+npm run setup
 ```
 
 The scripts call instance actions as `/action/{type}/{action}` with `{type}_id` in `attributes`, which is the route shape Daptin registers for actions.
@@ -70,8 +69,8 @@ The scripts call instance actions as `/action/{type}/{action}` with `{type}_id` 
 Compile and publish the static site into Daptin local storage:
 
 ```bash
-make install
-make publish
+npm install
+npm run publish
 ```
 
 Open:
@@ -80,7 +79,7 @@ Open:
 http://localhost:7336/integration-auth-demo/
 ```
 
-Daptin registers subsite routes on startup, so restart Daptin after `make setup` creates the site row. In Docker mode use `make restart`; in release-binary mode stop `make run-daptin-release` with `Ctrl-C` and run it again. File updates after that can be republished with `make publish`; restart if the subsite does not refresh within 10-15 seconds.
+Daptin registers subsite routes on startup, so restart Daptin after `npm run setup` creates the site row. In Docker mode use `npm run docker:restart`; in release-binary mode stop `npm run daptin:release` with `Ctrl-C` and run it again. File updates after that can be republished with `npm run publish`; restart if the subsite does not refresh within 10-15 seconds.
 
 ## Manual E2E Flow
 
@@ -99,9 +98,9 @@ Daptin registers subsite routes on startup, so restart Daptin after `make setup`
 ## Useful Commands
 
 ```bash
-make verify
-make logs
-docker compose down
+npm run verify
+docker compose logs -f daptin
+npm run docker:down
 ```
 
 `make verify` prints registered connectors, integrations, installed actions, visible tokens, and visible credentials without printing secrets.

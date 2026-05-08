@@ -4,7 +4,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "compile": "node scripts/compile-site.mjs"
+    "compile": "node scripts/compile-site.mjs",
+    "daptin:release": "node scripts/run-release.mjs",
+    "setup": "node scripts/setup.mjs",
+    "publish": "npm run compile && node scripts/publish-site.mjs",
+    "verify": "node scripts/verify.mjs",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:restart": "docker compose restart daptin"
   },
   "devDependencies": {
     "esbuild": "^0.25.0",

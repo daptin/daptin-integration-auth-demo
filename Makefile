@@ -9,7 +9,7 @@ compile-site:
 	npm run compile
 
 run-daptin-release:
-	./scripts/run-release.sh
+	npm run daptin:release
 
 up:
 	docker compose up -d
@@ -21,17 +21,17 @@ logs:
 	docker compose logs -f daptin
 
 setup:
-	./scripts/setup.sh
+	npm run setup
 
 publish: compile-site
-	./scripts/publish-site.sh
+	node scripts/publish-site.mjs
 
 restart:
 	docker compose restart daptin
 	sleep 15
 
 verify:
-	./scripts/verify-manual-state.sh
+	npm run verify
 
 clean:
 	rm -rf dist node_modules daptin-data .demo-state.env
